@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 import sqlite3
 from player import player, PLAYER_LIST
-conn = sqlite3.connect('playerInfo')
+conn = sqlite3.connect('playerInfo.db')
 c = conn.cursor()
 
 
@@ -38,14 +38,14 @@ def is_player_stored(short_steamID: int) -> bool:
 
 def get_playing_game(short_steamID):
     ret = c.execute(
-        "SELECT gamename, last_update FROM playerInfo WHERE short_steamID=?",
+        "SELECT gamename, last_update FROM playerInfo WHERE short_steamID={}".format
         (short_steamID,)
     ).fetchone()
-    return (ret[0], ret[1]) if ret else ('', 0)
+    return (ret[0], ret[1]) if ret[1] else ('', 0)
 
 def update_playing_game(short_steamID, gamename, timestamp):
     c.execute(
-        "UPDATE playerInfo SET gamename=?, last_update=? WHERE short_steamID=?",
+        "UPDATE playerInfo SET gamename='{}', last_update={} WHERE short_steamID={}".format
         (gamename, timestamp, short_steamID)
     )
     conn.commit()

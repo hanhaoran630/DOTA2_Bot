@@ -11,7 +11,7 @@ def gaming_status_watcher():
     r = requests.get(f'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={API_KEY}&steamids={sids}')
     j = json.loads(r.content)
     for p in j['response']['players']:
-        sid = int(p['steamid'])
+        sid = int(p['steamid']) - 76561197960265728
         pname = p['personaname']
         cur_game = p.get('gameextrainfo', '')
         pre_game, last_update = get_playing_game(sid)
